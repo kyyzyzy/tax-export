@@ -1,0 +1,26 @@
+{
+  "name": "tax-export",
+  "version": "1.0.42",
+  "description": "Chrome 扩展(MV3):在电子税务局(etax.chinatax.gov.cn)自动采集申报数据并导出 JSON/PDF,跨页面刷新自动续采。",
+  "private": true,
+  "scripts": {
+    "lint": "node -e \"for(const f of ['background.js','report.js','content/utils.js','content/datepickers.js','content/mask.js','content/list.js','content/detail.js','content/deduction.js','content/incometax.js','content/family.js','content/payload.js','content/main.js','popup/popup.js']){new Function(require('fs').readFileSync(f,'utf8'));console.log('✓ '+f)}\"",
+    "vendor": "cp node_modules/pdf-lib/dist/pdf-lib.min.js vendor/pdf-lib.min.js",
+    "test": "for f in test/test_*.js; do echo \"== $f\"; node \"$f\" || exit 1; done",
+    "build": "npm run lint && npm test && node build.js"
+  },
+  "keywords": [
+    "chrome-extension",
+    "etax",
+    "tax",
+    "mv3",
+    "pdf"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "jsdom": "^27.0.1",
+    "pdf-lib": "^1.17.1"
+  }
+}

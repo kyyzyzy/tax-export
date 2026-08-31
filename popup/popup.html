@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>税务数据导出</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>📊 税务数据导出</h1>
+    <p id="hint" class="hint">在电子税务局页面使用</p>
+  </header>
+
+  <!-- Tab 导航 -->
+  <nav class="tabs">
+    <button id="tabCollect" class="tab active">采集</button>
+    <button id="tabHistory" class="tab">历史 <span id="histCount" class="count">0</span></button>
+  </nav>
+
+  <!-- 采集面板 -->
+  <section id="panelCollect" class="panel active">
+    <div class="card">
+      <div class="row between cfg-row">
+        <label for="yearSel" class="cfg-label">采集年份</label>
+        <select id="yearSel" class="select">
+          <option value="1">1 年</option>
+          <option value="2">2 年</option>
+          <option value="3" selected>3 年</option>
+          <option value="4">4 年</option>
+          <option value="5">5 年</option>
+        </select>
+      </div>
+      <div class="btn-row">
+        <button id="startBtn" class="btn primary">开始采集</button>
+        <button id="clearTaskBtn" class="btn ghost">结束任务</button>
+      </div>
+      <div id="statusBadge" class="badge idle">就绪</div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div id="statusText" class="status-text"></div>
+    </div>
+
+    <div class="card">
+      <h2>日志</h2>
+      <div id="logBox"></div>
+    </div>
+  </section>
+
+  <!-- 历史面板 -->
+  <section id="panelHistory" class="panel">
+    <div class="card">
+      <div class="row between">
+        <h2>导出历史</h2>
+        <button id="clearHistBtn" class="btn mini danger" disabled>一键清除</button>
+      </div>
+      <div id="historyBox" class="history-box">
+        <div class="empty">暂无历史记录</div>
+      </div>
+    </div>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>

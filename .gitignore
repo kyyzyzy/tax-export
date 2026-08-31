@@ -1,0 +1,14 @@
+# 依赖与构建产物
+node_modules/
+dist/
+
+# 系统文件
+.DS_Store
+
+# 本地工具目录
+.codegraph/
+.zcode/
+
+# 含真实个人信息的示例数据,严禁提交到公开仓库
+demo/tax_data.json
+demo/output/

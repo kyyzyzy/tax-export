@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "税务数据导出",
+  "version": "1.0.42",
+  "description": "在电子税务局(etax.chinatax.gov.cn)自动采集申报数据并导出 JSON/PDF。跨页面刷新自动续采。",
+  "permissions": [
+    "storage",
+    "downloads",
+    "activeTab",
+    "debugger"
+  ],
+  "host_permissions": [
+    "https://etax.chinatax.gov.cn/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "税务数据导出"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://etax.chinatax.gov.cn/*"
+      ],
+      "js": [
+        "content/utils.js",
+        "content/datepickers.js",
+        "content/mask.js",
+        "content/list.js",
+        "content/detail.js",
+        "content/deduction.js",
+        "content/incometax.js",
+        "content/family.js",
+        "content/payload.js",
+        "content/main.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "report.html",
+        "report.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+  report.html —— JSON → HTML 报表 → PDF 的渲染页（扩展页，chrome-extension://）
+
+  流程:
+    1. URL 参数 ?id=<历史记录 id>  → 从 chrome.storage.local 历史里取 payload
+    2. 用 buildHtmlReport(payload) 生成自包含、打印友好的中文 HTML 报表
+    3. 渲染就绪后向 background 发 VIEWER_READY，等 Page.printToPDF
+    4. 打印完成（background 发 PRINT_DONE）后关闭自己
+
+  由 background.js 用 chrome.windows.create({ state:'minimized', url:... }) 打开。
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>税务数据报表</title>
+<style>
+  /* 打印基础:白底、合理字号、表格线 */
+  html, body { margin: 0; padding: 0; background: #fff; color: #1f2329;
+    font: 12px/1.5 "PingFang SC", "Microsoft YaHei", "Source Han Sans CN", sans-serif; }
+  .wrap { padding: 18px 22px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .meta { color: #666; font-size: 11px; margin-bottom: 14px; }
+  h2 { font-size: 14px; margin: 18px 0 8px; padding-left: 6px;
+    border-left: 3px solid #165dff; }
+  /* 年度汇算区块:整块底色区分 + 年度标题加大;按年份依次浅红→浅黄→浅蓝循环 */
+  .year-block { border: 1px solid; border-radius: 6px;
+    padding: 12px 14px 8px; margin: 18px 0 14px; }
+  .year-block h2 { font-size: 17px; margin: 0 0 10px; }
+  .yb-0 { background: #fdeeee; border-color: #f3d9d9; }  /* 浅红 */
+  .yb-1 { background: #fdf8e4; border-color: #f0e4bb; }  /* 浅黄 */
+  .yb-2 { background: #eef3fc; border-color: #dce5f5; }  /* 浅蓝 */
+  table { border-collapse: collapse; width: 100%; margin-bottom: 6px; }
+  th, td { border: 1px solid #d9dce3; padding: 5px 7px; text-align: left;
+    vertical-align: top; word-break: break-all; }
+  th { background: #f5f6fa; font-weight: 600; white-space: nowrap; }
+  /* 字段名单元格统一 #F5F6FA;值单元格统一白色(去掉偶数行斑马色) */
+  td { background: #fff; }
+  .kv td:first-child { width: 26%; background: #f5f6fa; font-weight: 600; white-space: nowrap; }
+  .seg-title { font-weight: 700; margin: 8px 0 4px; color: #165dff; }
+  .empty { color: #999; font-style: italic; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 9px;
+    background: #eef2ff; color: #165dff; font-size: 11px; margin-left: 8px; }
+</style>
+</head>
+<body>
+  <div id="status">渲染中…</div>
+  <div id="report" class="wrap"></div>
+  <script src="report.js"></script>
+</body>
+</html>
